@@ -14,7 +14,7 @@ ECMAScript是一种由Ecma国际（前身为欧洲计算机制造商协会）在
     ![变量特性](./img/var_let_const.png)
   2. 类（class）
     <p>写法进行了更改，在ES6之前，如果我们要生成一个实例对象，传统的方法就是写一个构造函数，通过构造函数去绑定方法；但是在ES6之后，我们可以通过类的形式直接书写，[例子如下](./js/class.js)：</p>
-  构造函数  
+    构造函数  
 
           function Person(name, age) {
             this.name = name
@@ -105,4 +105,119 @@ ECMAScript是一种由Ecma国际（前身为欧洲计算机制造商协会）在
       .then(res => {
         console.log(res) // => 2
       })
-      
+  10. for...of
+    <p>for...of语句在可迭代对象（包括 Array，Map，Set，String，TypedArray，arguments 对象等等）上创建一个迭代循环，调用自定义迭代钩子，并为每个不同属性的值执行语句。</p>
+
+    const array = ['a', 'b', 'c'];
+    for (const element of array) {
+      console.log(element);
+    }
+  11. Symbol
+    <p>symbol 是一种基本数据类型，Symbol()函数会返回symbol类型的值，该类型具有静态属性和静态方法。它的静态属性会暴露几个内建的成员对象；它的静态方法会暴露全局的symbol注册，且类似于内建对象类，但作为构造函数来说它并不完整，因为它不支持语法："new Symbol()"。每个从Symbol()返回的symbol值都是唯一的。一个symbol值能作为对象属性的标识符；这是该数据类型仅有的目的。</p>[example](./js/symbol.js)
+  12. 迭代器/生成器
+    <p>迭代器（Iterator）是一种迭代的机制，为各种不同的数据结构提供统一的访问机制。任何数据结构只要内部有 Iterator 接口，就可以完成依次迭代操作。</p>   
+    <p>一旦创建，迭代器对象可以通过重复调用next()显式地迭代，从而获取该对象每一级的值，直到迭代完，返回{ value: undefined, done: true }</p>
+    <p>虽然自定义的迭代器是一个有用的工具，但由于需要显式地维护其内部状态，因此需要谨慎地创建。生成器函数提供了一个强大的选择：它允许你定义一个包含自有迭代算法的函数， 同时它可以自动维护自己的状态。 生成器函数使用 function*语法编写。 最初调用时，生成器函数不执行任何代码，而是返回一种称为Generator的迭代器。 通过调用生成器的下一个方法消耗值时，Generator函数将执行，直到遇到yield关键字。</p>
+    <p>可以根据需要多次调用该函数，并且每次都返回一个新的Generator，但每个Generator只能迭代一次。</p>
+
+    function* makeRangeIterator(start = 0, end = Infinity, step = 1) {
+        for (let i = start; i < end; i += step) {
+            yield i;
+        }
+    }
+    var a = makeRangeIterator(1,10,2)
+    a.next() // {value: 1, done: false}
+    a.next() // {value: 3, done: false}
+    a.next() // {value: 5, done: false}
+    a.next() // {value: 7, done: false}
+    a.next() // {value: 9, done: false}
+    a.next() // {value: undefined, done: true}
+  13. Set/WeakSet
+    <p>Set 对象允许你存储任何类型的唯一值，无论是原始值或者是对象引用。所以我们可以通过Set实现数组去重</p>
+
+    const numbers = [2,3,4,4,2,3,3,4,4,5,5,6,6,7,5,32,3,4,5];
+    console.log([...new Set(numbers)]); // [2, 3, 4, 5, 6, 7, 32]
+
+    <p>WeakSet 结构与 Set 类似，但区别有以下两点:</p>
+    <p>1. WeakSet 对象中只能存放对象引用, 不能存放值, 而 Set 对象都可以。</p>
+    <p>2. WeakSet 对象中存储的对象值都是被弱引用的, 如果没有其他的变量或属性引用这个对象值, 则这个对象值会被当成垃圾回收掉. 正因为这样, WeakSet 对象是无法被枚举的, 没有办法拿到它包含的所有元素。</p>
+
+    var ws = new WeakSet();
+    var obj = {};
+    var foo = {};
+
+    ws.add(window);
+    ws.add(obj);
+
+    ws.has(window); // true
+    ws.has(foo);    // false, 对象 foo 并没有被添加进 ws 中 
+
+    ws.delete(window); // 从集合中删除 window 对象
+    ws.has(window);    // false, window 对象已经被删除了
+
+    ws.clear(); // 清空整个 WeakSet 对象
+  14. Map/WeakMap
+    <p>Map 对象保存键值对。任何值(对象或者原始值) 都可以作为一个键或一个值。</p>
+
+    var myMap = new Map();
+    myMap.set(NaN, "not a number");
+
+    myMap.get(NaN); // "not a number"
+
+    var otherNaN = Number("foo");
+    myMap.get(otherNaN); // "not a number"
+
+    <p>WeakMap 对象是一组键/值对的集合，其中的键是弱引用的。其键必须是对象，而值可以是任意的。</p>
+
+    var wm1 = new WeakMap(),
+        wm2 = new WeakMap(),
+        wm3 = new WeakMap();
+    var o1 = {},
+        o2 = function(){},
+        o3 = window;
+
+    wm1.set(o1, 37);
+    wm1.set(o2, "azerty");
+    wm2.set(o1, o2); // value可以是任意值,包括一个对象
+    wm2.set(o3, undefined);
+    wm2.set(wm1, wm2); // 键和值可以是任意对象,甚至另外一个WeakMap对象
+    wm1.get(o2); // "azerty"
+    wm2.get(o2); // undefined,wm2中没有o2这个键
+    wm2.get(o3); // undefined,值就是undefined
+
+    wm1.has(o2); // true
+    wm2.has(o2); // false
+    wm2.has(o3); // true (即使值是undefined)
+
+    wm3.set(o1, 37);
+    wm3.get(o1); // 37
+    wm3.clear();
+    wm3.get(o1); // undefined,wm3已被清空
+    wm1.has(o1);   // true
+    wm1.delete(o1);
+    wm1.has(o1);   // false
+  15. Proxy/Reflect
+    <p>Proxy 对象用于定义基本操作的自定义行为（如属性查找，赋值，枚举，函数调用等）。</p>
+    <p>Reflect 是一个内置的对象，它提供拦截 JavaScript 操作的方法。这些方法与 Proxy 的方法相同。Reflect不是一个函数对象，因此它是不可构造的。</p>
+
+    const observe = (data, callback) => {
+        return new Proxy(data, {
+            get(target, key) {
+                return Reflect.get(target, key)
+            },
+            set(target, key, value, proxy) {
+                callback(key, value);
+                target[key] = value;
+                return Reflect.set(target, key, value, proxy)
+            }
+        })
+    }
+
+    const FooBar = { open: false };
+    const FooBarObserver = observe(FooBar, (property, value) => {
+      property === 'open' && value 
+          ? console.log('FooBar is open!!!') 
+          : console.log('keep waiting');
+    });
+    console.log(FooBarObserver.open) // false
+    FooBarObserver.open = true // FooBar is open!!!
