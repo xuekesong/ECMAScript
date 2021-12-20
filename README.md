@@ -208,7 +208,7 @@ ECMAScript是一种由Ecma国际（前身为欧洲计算机制造商协会）在
             set(target, key, value, proxy) {
                 callback(key, value);
                 target[key] = value;
-                return Reflect.set(target, key, value, proxy)
+                return Reflect.set(target, key, value, proxy) 
             }
         })
     }
@@ -221,3 +221,4 @@ ECMAScript是一种由Ecma国际（前身为欧洲计算机制造商协会）在
     });
     console.log(FooBarObserver.open) // false
     FooBarObserver.open = true // FooBar is open!!!
+  16.    
