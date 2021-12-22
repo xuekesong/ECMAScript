@@ -249,5 +249,54 @@ ECMAScript是一种由Ecma国际（前身为欧洲计算机制造商协会）在
     - `Math.asinh()`: 返回n的反双曲正弦
     - `Math.acosh()`: 返回n的反双曲余弦
     - `Math.atanh()`: 返回n的反双曲正切
-    
-  17. 
+
+  17. Array对象的扩展
+    - `Array.prototype.from`: 转换具有Iterator接口的数据结构为真正数组，返回新数组
+      `console.log(Array.from('foo')) // ["f", "o", "o"]`
+    - `Array.prototype.of()`: 转换一组值为真正数组，返回新数组
+      `Array.of(1, 2, 3) // [1, 2, 3]`
+    - `Array.prototype.copyWithin()`: 把指定位置的成员复制到其他位置，返回原数组
+        const array1 = ['a', 'b', 'c', 'd', 'e'];
+        console.log(array1.copyWithin(0, 3, 4)); // ["d", "b", "c", "d", "e"]
+    - `Array.prototype.find()`: 返回第一个符合条件的成员
+        const array1 = [5, 12, 8, 130, 44];
+        const found = array1.find(element => element > 10);
+        console.log(found); // 12
+    - `Array.prototype.findIndex()`: 返回第一个符合条件的成员索引值
+        const array1 = [5, 12, 8, 130, 44];
+        const isLargeNumber = (element) => element > 13;
+        console.log(array1.findIndex(isLargeNumber)); // 3
+    - `Array.prototype.fill()`: 根据指定值填充整个数组，返回原数组
+        const array1 = [1, 2, 3, 4];
+        console.log(array1.fill(0, 2, 4)); // [1, 2, 0, 0]
+    - `Array.prototype.keys()`: 返回以索引值为遍历器的对象
+        const array1 = ['a', 'b', 'c'];
+        const iterator = array1.keys();
+
+        for (const key of iterator) {
+          console.log(key);
+        }
+        // 0
+        // 1
+        // 2
+    - `Array.prototype.values()`: 返回以属性值为遍历器的对象
+        const array1 = ['a', 'b', 'c'];
+        const iterator = array1.values();
+
+        for (const key of iterator) {
+          console.log(key);
+        }
+        // a
+        // b
+        // c
+    - `Array.prototype.entries()`: 返回以索引值和属性值为遍历器的对象
+        const array1 = ['a', 'b', 'c'];
+        const iterator = array1.entries();
+
+        console.log(iterator.next().value); // [0, "a"]
+        console.log(iterator.next().value); // [1, "b"]
+    - `数组空位`: ES6明确将数组空位转为undefined或者empty
+        Array.from(['a',,'b']) // [ "a", undefined, "b" ]
+        [...['a',,'b']] // [ "a", undefined, "b" ]
+        Array(3) //  [empty × 3]
+        [,'a'] // [empty, "a"]
