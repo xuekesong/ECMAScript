@@ -251,10 +251,13 @@ ECMAScript是一种由Ecma国际（前身为欧洲计算机制造商协会）在
     - `Math.atanh()`: 返回n的反双曲正切
 
   17. Array对象的扩展 
+  
     - `Array.prototype.from`: 转换具有Iterator接口的数据结构为真正数组，返回新数组
          `console.log(Array.from('foo')) // ["f", "o", "o"]`
+         
     - `Array.prototype.of()`: 转换一组值为真正数组，返回新数组
          `Array.of(1, 2, 3) // [1, 2, 3]`
+         
     - `Array.prototype.copyWithin()`: 把指定位置的成员复制到其他位置，返回原数组
           const array1 = ['a', 'b', 'c', 'd', 'e'];
           console.log(array1.copyWithin(0, 3, 4)); // ["d", "b", "c", "d", "e"]
