@@ -335,3 +335,14 @@ ECMAScript是一种由Ecma国际（前身为欧洲计算机制造商协会）在
           [...['a',,'b']] // [ "a", undefined, "b" ]
           Array(3) //  [empty × 3]
           [,'a'] // [empty, "a"]
+  ## ES7(ES2016)
+  1. `Array.prototype.includes()` 
+    <p>`includes()`方法用来判断一个数组是否包含一个指定的值，根据情况，如果包含则返回 true，否则返回false。</p>
+        const array1 = [1, 2, 3]
+        console.log(array1.includes(2)) // true
+  2. 幂运算符**
+    <p>幂运算符**，具有与Math.pow()一样的功能</p>
+
+        console.log(2**10) // 1024
+        console.log(Math.pow(2, 10)) // 1024
+        
