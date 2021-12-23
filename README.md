@@ -434,3 +434,49 @@ Reflect 是一个内置的对象，它提供拦截 JavaScript 操作的方法。
         subclass.prototype = Object.create(superclass.prototype, Object.getOwnPropertyDescriptors({
           // 在这里定义方法和属性
         }))
+## ES9(ES2018)
+1. for await...of
+for await...of 语句会在异步或者同步可迭代对象上创建一个迭代循环，包括 String，Array，Array-like 对象（比如arguments 或者NodeList)，TypedArray，Map， Set和自定义的异步或者同步可迭代对象。其会调用自定义迭代钩子，并为每个不同属性的值执行语句。
+
+        async function* asyncGenerator() {
+              var i = 0
+              while (i < 3) {
+                    yield i++
+              }
+        }
+        (async function() {
+              for await (num of asyncGenerator()) {
+                    console.log(num)
+              }
+        })()
+        // 0
+        // 1
+        // 2
+2. 对象扩展操作符
+ES6中添加了数组的扩展操作符，让我们在操作数组时更加简便，美中不足的是并不支持对象扩展操作符，但是在ES9开始，这一功能也得到了支持。
+
+        var obj1 = { foo: 'bar', x: 42 };
+        var obj2 = { foo: 'baz', y: 13 };
+
+        var clonedObj = { ...obj1 };
+        // 克隆后的对象: { foo: "bar", x: 42 }
+
+        var mergedObj = { ...obj1, ...obj2 };
+        // 合并后的对象: { foo: "baz", x: 42, y: 13 }
+
+    上面便是一个简便的浅拷贝。这里有一点小提示，就是Object.assign() 函数会触发 setters，而展开语法则不会。所以不能替换也不能模拟Object.assign() 。
+
+    如果存在相同的属性名，只有最后一个会生效。
+3. Promise.prototype.finally()
+finally()方法会返回一个Promise，当promise的状态变更，不管是变成rejected或者fulfilled，最终都会执行finally()的回调。
+
+        fetch(url)
+          .then((res) => {
+            console.log(res)
+          })
+          .catch((error) => { 
+            console.log(error)
+          })
+          .finally(() => { 
+            console.log('结束')
+          })
